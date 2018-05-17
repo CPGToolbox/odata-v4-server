@@ -1430,7 +1430,7 @@ export class ODataProcessor extends Transform {
                                     metadata[`${prop}@odata.associationLink`] = `${context["@odata.id"]}/${prop}/$ref`;
                                     metadata[`${prop}@odata.navigationLink`] = `${context["@odata.id"]}/${prop}`;
                                 }
-                            } else if (type != "Edm.String" && type != "Edm.Boolean") {
+                            } else if (type != "Edm.String") {
                                 let typeName = Edm.getTypeName(elementType, prop, this.serverType.container);
                                 if (typeof type == "string" && type.indexOf("Edm.") == 0) typeName = typeName.replace(/Edm\./, "");
                                 context[`${prop}@odata.type`] = `#${typeName}`;

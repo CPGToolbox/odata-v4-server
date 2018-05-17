@@ -342,6 +342,7 @@ describe("OData HTTP", () => {
                     "p17@odata.type": "#Geography",
                     "p18@odata.type": "#GeographyPoint",
                     "p19@odata.type": "#GeographyLineString",
+                    "p1@odata.type": "#Boolean",
                     "p20@odata.type": "#GeographyPolygon",
                     "p21@odata.type": "#GeographyMultiPoint",
                     "p22@odata.type": "#GeographyMultiLineString",
