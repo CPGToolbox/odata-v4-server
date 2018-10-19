@@ -1577,10 +1577,13 @@ export class ODataProcessor extends Transform {
             if (typeof queryAst == "string") {
                 queryAst = this.serverType.parser.query(queryAst, { metadata: this.resourcePath.ast.metadata || this.serverType.$metadata().edmx });
                 if (!include) queryAst = deepmerge(queryAst, this.resourcePath.ast.value.query || {});
-                const lastNavigationPath = this.resourcePath.navigation[this.resourcePath.navigation.length - 1];
-                const queryType = lastNavigationPath.type == "QualifiedEntityTypeName" ?
-                    this.resourcePath.navigation[this.resourcePath.navigation.length - 1].node[ODATA_TYPE] :
-                    (result || this.ctrl.prototype).elementType;
+                const queryType = this.resourcePath.navigation[this.resourcePath.navigation.length - 1].node[ODATA_TYPE];
+
+                // 2018-10-19 Commented out due to errors when filter was applied in Salesforce requests
+                // const lastNavigationPath = this.resourcePath.navigation[this.resourcePath.navigation.length - 1];
+                // const queryType = lastNavigationPath.type == "QualifiedEntityTypeName" ?
+                //     this.resourcePath.navigation[this.resourcePath.navigation.length - 1].node[ODATA_TYPE] :
+                //     (result || this.ctrl.prototype).elementType;
                 await new ResourcePathVisitor(this.serverType, this.entitySets).Visit(<Token>queryAst, {}, queryType);
             }
             params[queryParam] = this.serverType.connector ? this.serverType.connector.createQuery(queryAst, elementType) : queryAst;
@@ -1600,10 +1603,12 @@ export class ODataProcessor extends Transform {
                 filterAst = qs.parse(filterAst).$filter;
                 if (typeof filterAst == "string") {
                     filterAst = this.serverType.parser.filter(filterAst, { metadata: this.resourcePath.ast.metadata || this.serverType.$metadata().edmx });
-                    const lastNavigationPath = this.resourcePath.navigation[this.resourcePath.navigation.length - 1];
-                    const queryType = lastNavigationPath.type == "QualifiedEntityTypeName" ?
-                        this.resourcePath.navigation[this.resourcePath.navigation.length - 1].node[ODATA_TYPE] :
-                        (result || this.ctrl.prototype).elementType;
+                    const queryType = this.resourcePath.navigation[this.resourcePath.navigation.length - 1].node[ODATA_TYPE];
+                    // 2018-10-19 Commented out due to errors when filter was applied in Salesforce requests
+                    // const lastNavigationPath = this.resourcePath.navigation[this.resourcePath.navigation.length - 1];
+                    // const queryType = lastNavigationPath.type == "QualifiedEntityTypeName" ?
+                    //     this.resourcePath.navigation[this.resourcePath.navigation.length - 1].node[ODATA_TYPE] :
+                    //     (result || this.ctrl.prototype).elementType;
                     await new ResourcePathVisitor(this.serverType, this.entitySets).Visit(<Token>filterAst, {}, queryType);
                 }
             } else {
